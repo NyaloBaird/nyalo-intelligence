@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ company_name }} | Departments</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-content">
+            <div class="brand">
+                <div class="brand-mark">NI</div>
+                <div>
+                    <div class="brand-name">{{ company_name }}</div>
+                    <div class="brand-subtitle">Departments</div>
+                </div>
+            </div>
+            <nav class="nav">
+                <a href="{% url 'home' %}">Home</a>
+                <a href="{% url 'department_list' %}" class="pill">Departments</a>
+                <a href="{% url 'logout' %}">Logout</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="section">
+            <div class="container section-header">
+                <div>
+                    <p class="eyebrow">Departments</p>
+                    <h2>Explore Nyalo Intelligence teams</h2>
+                    <p class="muted">Select a department to view its focus areas and highlights.</p>
+                </div>
+            </div>
+            <div class="container card-grid">
+                {% for department in departments %}
+                    <article class="card">
+                        <div class="card-header">
+                            <div class="card-icon">{{ forloop.counter }}</div>
+                            <div>
+                                <h3>{{ department.name }}</h3>
+                                <p class="muted">{{ department.summary }}</p>
+                            </div>
+                        </div>
+                        <ul class="bullet-list">
+                            {% for item in department.highlights.all %}
+                                <li>{{ item.text }}</li>
+                            {% endfor %}
+                        </ul>
+                        <a class="text-link" href="{% url 'department_detail' department.slug %}">View details →</a>
+                    </article>
+                {% empty %}
+                    <p>No departments available.</p>
+                {% endfor %}
+            </div>
+        </section>
+    </main>
+</body>
+</html>
+

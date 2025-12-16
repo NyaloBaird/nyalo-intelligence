@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create customer account | Nyalo Intelligence</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <main class="section">
+        <div class="container" style="max-width: 420px;">
+            <div class="card" style="padding: 1.5rem;">
+                <div class="card-header" style="margin-bottom: 1rem;">
+                    <div class="card-icon">C</div>
+                    <div>
+                        <h3>Create customer account</h3>
+                        <p class="muted">Sign up to access Nyalo Intelligence services.</p>
+                    </div>
+                </div>
+                {% if form.errors %}
+                    <div class="card" style="border-color: #f87171; background: rgba(248,113,113,0.08); margin-bottom: 1rem;">
+                        <p>Please fix the highlighted fields.</p>
+                    </div>
+                {% endif %}
+                <form method="post" class="contact-form">
+                    {% csrf_token %}
+                    <label>
+                        Username
+                        {{ form.username }}
+                    </label>
+                    <label>
+                        Email
+                        {{ form.email }}
+                    </label>
+                    <label>
+                        Password
+                        {{ form.password1 }}
+                    </label>
+                    <label>
+                        Confirm password
+                        {{ form.password2 }}
+                    </label>
+                    <button class="btn primary full" type="submit">Sign up as customer</button>
+                </form>
+            </div>
+            <div style="margin-top: 1rem;">
+                <a class="text-link" href="{% url 'customer_login' %}">Already have an account? Sign in →</a><br>
+                <a class="text-link" href="{% url 'home' %}">← Back to home</a>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
+
+
+

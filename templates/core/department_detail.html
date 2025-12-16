@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ company_name }} | {{ department.name }}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-content">
+            <div class="brand">
+                <div class="brand-mark">NI</div>
+                <div>
+                    <div class="brand-name">{{ company_name }}</div>
+                    <div class="brand-subtitle">{{ department.name }}</div>
+                </div>
+            </div>
+            <nav class="nav">
+                <a href="{% url 'department_list' %}">Back to departments</a>
+                <a href="{% url 'logout' %}">Logout</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="section">
+            <div class="container section-header">
+                <div>
+                    <p class="eyebrow">Department</p>
+                    <h1>{{ department.name }}</h1>
+                    <p class="muted">{{ department.summary }}</p>
+                </div>
+            </div>
+            <div class="container card">
+                <h3>Key highlights</h3>
+                <ul class="bullet-list">
+                    {% for item in department.highlights.all %}
+                        <li>{{ item.text }}</li>
+                    {% empty %}
+                        <li>No highlights yet.</li>
+                    {% endfor %}
+                </ul>
+                <div class="cta-row" style="margin-top:1.25rem;">
+                    <a class="btn primary" href="#contact">Request {{ department.name }}</a>
+                    <a class="btn ghost" href="{% url 'department_list' %}">All departments</a>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
+

@@ -1,0 +1,87 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ company_name }} | {{ department.name }}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        :root {
+            --accent: {{ department.theme_primary }};
+            --accent-strong: {{ department.theme_accent }};
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-content">
+            <div class="brand">
+                <div class="brand-mark">GD</div>
+                <div>
+                    <div class="brand-name">{{ company_name }}</div>
+                    <div class="brand-subtitle">{{ department.name }} · Visual Identity</div>
+                </div>
+            </div>
+            <nav class="nav">
+                <a href="{% url 'department_list' %}">Back to departments</a>
+                <a href="{% url 'logout' %}">Logout</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="section">
+            <div class="container section-header">
+                <div>
+                    <p class="eyebrow">Graphic design</p>
+                    <h1>{{ department.name }}</h1>
+                    <p class="muted">{{ department.summary }}</p>
+                </div>
+            </div>
+            <div class="container split">
+                <div class="card">
+                    <h3>Design brief</h3>
+                    <form class="contact-form">
+                        <label>
+                            Deliverable
+                            <select>
+                                <option>Logo & brand kit</option>
+                                <option>Social media pack</option>
+                                <option>Poster / flyer</option>
+                                <option>Merch artwork</option>
+                            </select>
+                        </label>
+                        <label>
+                            Brand / project name
+                            <input type="text" placeholder="Your brand or event name">
+                        </label>
+                        <label>
+                            Creative direction
+                            <textarea rows="3" placeholder="Colours, mood, references, target audience…"></textarea>
+                        </label>
+                        <button type="button" class="btn primary full">Share brief</button>
+                    </form>
+                </div>
+                <div class="card">
+                    <h3>What we cover</h3>
+                    <ul class="bullet-list">
+                        {% for item in department.highlights.all %}
+                            <li>{{ item.text }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% if is_department_staff %}
+                        <div style="margin-top:1rem;">
+                            <h4>Studio pipeline (staff)</h4>
+                            <p class="muted">Designers can connect this view to asset approvals, versions, and delivery timelines.</p>
+                        </div>
+                    {% else %}
+                        <p class="muted" style="margin-top:1rem;">Public clients see a simple intake form; designers see extra production tools.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
+

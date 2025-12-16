@@ -1,0 +1,89 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ company_name }} | {{ department.name }}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        :root {
+            --accent: {{ department.theme_primary }};
+            --accent-strong: {{ department.theme_accent }};
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-content">
+            <div class="brand">
+                <div class="brand-mark">ICT</div>
+                <div>
+                    <div class="brand-name">{{ company_name }}</div>
+                    <div class="brand-subtitle">{{ department.name }} · Ticketing & Support</div>
+                </div>
+            </div>
+            <nav class="nav">
+                <a href="{% url 'department_list' %}">Back to departments</a>
+                <a href="{% url 'logout' %}">Logout</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="section">
+            <div class="container section-header">
+                <div>
+                    <p class="eyebrow">ICT Support</p>
+                    <h1>{{ department.name }}</h1>
+                    <p class="muted">{{ department.summary }}</p>
+                </div>
+            </div>
+            <div class="container split">
+                <div class="card">
+                    <h3>Open a support ticket</h3>
+                    <p class="muted">Describe your issue and we’ll route it to the right engineer.</p>
+                    <form class="contact-form">
+                        <label>
+                            Subject
+                            <input type="text" placeholder="e.g. Laptop cannot connect to Wi‑Fi">
+                        </label>
+                        <label>
+                            Impact level
+                            <select>
+                                <option>Low</option>
+                                <option>Medium</option>
+                                <option>High</option>
+                                <option>Critical</option>
+                            </select>
+                        </label>
+                        <label>
+                            Details
+                            <textarea rows="4" placeholder="Add steps, screenshots, or error messages."></textarea>
+                        </label>
+                        <button type="button" class="btn primary full">Submit ticket</button>
+                    </form>
+                    <p class="form-note">Ticketing is illustrative. Connect this form to your real ticket system (e.g. Jira, Freshdesk, custom app).</p>
+                </div>
+                <div class="card">
+                    <h3>Live status</h3>
+                    <ul class="bullet-list">
+                        {% for item in department.highlights.all %}
+                            <li>{{ item.text }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% if is_department_staff %}
+                        <div style="margin-top:1rem;">
+                            <h4>Internal queue (staff view)</h4>
+                            <p class="muted">As ICT staff you would see prioritized tickets, SLAs, and escalation paths here.</p>
+                        </div>
+                    {% else %}
+                        <p class="muted" style="margin-top:1rem;">You are viewing the customer view of ICT Support.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
+

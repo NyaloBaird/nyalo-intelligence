@@ -1,0 +1,88 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ company_name }} | {{ department.name }}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        :root {
+            --accent: {{ department.theme_primary }};
+            --accent-strong: {{ department.theme_accent }};
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-content">
+            <div class="brand">
+                <div class="brand-mark">SE</div>
+                <div>
+                    <div class="brand-name">{{ company_name }}</div>
+                    <div class="brand-subtitle">{{ department.name }} · OS & Apps</div>
+                </div>
+            </div>
+            <nav class="nav">
+                <a href="{% url 'department_list' %}">Back to departments</a>
+                <a href="{% url 'logout' %}">Logout</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="section">
+            <div class="container section-header">
+                <div>
+                    <p class="eyebrow">Software engineering</p>
+                    <h1>{{ department.name }}</h1>
+                    <p class="muted">{{ department.summary }}</p>
+                </div>
+            </div>
+            <div class="container split">
+                <div class="card">
+                    <h3>Project brief</h3>
+                    <p class="muted">Share what you need across OS customization, web, desktop, or mobile.</p>
+                    <form class="contact-form">
+                        <label>
+                            Project type
+                            <select>
+                                <option>Custom OS / OS hardening</option>
+                                <option>Website / web app</option>
+                                <option>Desktop application</option>
+                                <option>Mobile (Android / iOS)</option>
+                            </select>
+                        </label>
+                        <label>
+                            Goals
+                            <textarea rows="3" placeholder="e.g. secure kiosk OS, e‑commerce site, internal dashboard…"></textarea>
+                        </label>
+                        <label>
+                            Timeline
+                            <input type="text" placeholder="e.g. Q1 launch, 8–12 weeks, ASAP">
+                        </label>
+                        <button type="button" class="btn primary full">Send brief</button>
+                    </form>
+                </div>
+                <div class="card">
+                    <h3>Capabilities</h3>
+                    <ul class="bullet-list">
+                        {% for item in department.highlights.all %}
+                            <li>{{ item.text }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% if is_department_staff %}
+                        <div style="margin-top:1rem;">
+                            <h4>Engineering board (staff)</h4>
+                            <p class="muted">Engineers can connect this panel to sprints, backlogs, and deployment pipelines.</p>
+                        </div>
+                    {% else %}
+                        <p class="muted" style="margin-top:1rem;">After you submit a brief, our engineers will propose architecture and timelines.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
+

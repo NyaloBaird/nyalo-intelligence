@@ -1,0 +1,263 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ company_name }} | Integrated Tech & Creativity</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-content">
+            <div class="brand">
+                <div class="brand-mark">NI</div>
+                <div>
+                    <div class="brand-name">{{ company_name }}</div>
+                    <div class="brand-subtitle">Technology • Security • Creativity</div>
+                </div>
+            </div>
+            <nav class="nav">
+                <a href="#departments">Departments</a>
+                <a href="#solutions">Solutions</a>
+                <a href="#artists">Artists</a>
+                <a href="#contact">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container hero-grid">
+                <div>
+                    <p class="eyebrow">Nyalo Intelligence</p>
+                    <h1>Unified ICT, security, and creative experiences.</h1>
+                    <p class="lead">{{ tagline }}</p>
+                    <div class="cta-row">
+                        <a class="btn primary" href="#contact">Talk to us</a>
+                        <a class="btn ghost" href="{% url 'customer_login' %}?next={% url 'department_list' %}">Customer portal</a>
+                    </div>
+                    <div class="cta-row">
+                        <a class="btn ghost" href="{% url 'staff_login' %}?next={% url 'department_list' %}">Staff portal</a>
+                        <a class="btn ghost" href="{% url 'customer_signup' %}">Sign up</a>
+                    </div>
+                    <div class="pill-row">
+                        <span class="pill">ICT Support</span>
+                        <span class="pill">Cybersecurity</span>
+                        <span class="pill">Software Engineering</span>
+                        <span class="pill">Music & Entertainment</span>
+                    </div>
+                </div>
+                <div class="hero-card">
+                    <div class="hero-card-title">Service snapshot</div>
+                    <ul class="hero-list">
+                        <li><span>Rapid response</span><strong>Under 1 hour SLA options</strong></li>
+                        <li><span>Coverage</span><strong>On-site + remote support</strong></li>
+                        <li><span>Security</span><strong>Assessment → hardening → training</strong></li>
+                        <li><span>Commerce</span><strong>Merch design, stock, and fulfilment</strong></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="section alt">
+            <div class="container split">
+                <div>
+                    <p class="eyebrow">About</p>
+                    <h2>Mission &amp; vision</h2>
+                    <p class="muted"><strong>Mission:</strong> {{ mission }}</p>
+                    <p class="muted"><strong>Vision:</strong> {{ vision }}</p>
+                </div>
+                <div class="info-panel">
+                    <h4>Founders</h4>
+                    <ul class="bullet-list compact">
+                        {% for owner in owners %}
+                            <li>{{ owner }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="departments" class="section">
+            <div class="container section-header">
+                <div>
+                    <p class="eyebrow">Departments</p>
+                    <h2>Specialized teams inside Nyalo Intelligence</h2>
+                    <p class="muted">Cross-functional squads that collaborate so your technology, security, and experiences stay cohesive.</p>
+                </div>
+            </div>
+            <div class="container card-grid">
+                {% for department in departments %}
+                    <article id="{{ department.slug }}" class="card">
+                        <div class="card-header">
+                            <div class="card-icon">{{ forloop.counter }}</div>
+                            <h3>{{ department.name }}</h3>
+                        </div>
+                        <p class="muted">{{ department.summary }}</p>
+                        <ul class="bullet-list">
+                            {% for item in department.highlights.all %}
+                                <li>{{ item.text }}</li>
+                            {% endfor %}
+                        </ul>
+                        <a class="text-link" href="#contact">Request {{ department.name }} support →</a>
+                    </article>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section id="artists" class="section">
+            <div class="container section-header">
+                <div>
+                    <p class="eyebrow">Artists</p>
+                    <h2>Featured talent we sponsor and produce</h2>
+                    <p class="muted">Music and entertainment at Nyalo Intelligence includes artist bios, releases, socials, and booking support.</p>
+                </div>
+            </div>
+            <div class="container card-grid">
+                {% for artist in artists %}
+                    <article class="card">
+                        <div class="card-header">
+                            <div class="card-icon">★</div>
+                            <div>
+                                <h3>{{ artist.name }}</h3>
+                                <p class="muted">{{ artist.role }}</p>
+                            </div>
+                        </div>
+                        <p>{{ artist.bio }}</p>
+                        <ul class="bullet-list">
+                            {% for stat in artist.stats.all %}
+                                <li>{{ stat.text }}</li>
+                            {% endfor %}
+                        </ul>
+                        <div class="pill-row">
+                            {% if artist.youtube_url %}
+                                <a class="pill" href="{{ artist.youtube_url }}" target="_blank" rel="noopener">YouTube</a>
+                            {% endif %}
+                            {% if artist.facebook_url %}
+                                <a class="pill" href="{{ artist.facebook_url }}" target="_blank" rel="noopener">Facebook</a>
+                            {% endif %}
+                            {% if artist.tiktok_url %}
+                                <a class="pill" href="{{ artist.tiktok_url }}" target="_blank" rel="noopener">TikTok</a>
+                            {% endif %}
+                            {% if artist.instagram_url %}
+                                <a class="pill" href="{{ artist.instagram_url }}" target="_blank" rel="noopener">Instagram</a>
+                            {% endif %}
+                        </div>
+                        <a class="text-link" href="#contact">Book {{ artist.name }} →</a>
+                    </article>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section id="solutions" class="section alt">
+            <div class="container split">
+                <div>
+                    <p class="eyebrow">Why Nyalo Intelligence</p>
+                    <h2>One partner, many capabilities</h2>
+                    <p class="muted">We blend operational ICT excellence, resilient security, and creative production so your business can focus on growth.</p>
+                    <div class="chip-grid">
+                        <span class="chip">Lifecycle ICT support</span>
+                        <span class="chip">Cloud & DevOps guidance</span>
+                        <span class="chip">Security training</span>
+                        <span class="chip">Live event delivery</span>
+                        <span class="chip">Merch strategy</span>
+                        <span class="chip">Custom software</span>
+                    </div>
+                </div>
+                <div class="info-panel">
+                    <div>
+                        <h4>Engagement models</h4>
+                        <ul class="bullet-list compact">
+                            <li>Retainers for ongoing ICT support</li>
+                            <li>Project-based software builds and integrations</li>
+                            <li>Security assessments with remediation sprints</li>
+                            <li>Event-by-event production and merch drops</li>
+                        </ul>
+                    </div>
+                    <div class="stat-row">
+                        <div>
+                            <div class="stat-value">24/7</div>
+                            <div class="stat-label">Support coverage</div>
+                        </div>
+                        <div>
+                            <div class="stat-value">360°</div>
+                            <div class="stat-label">Security approach</div>
+                        </div>
+                        <div>
+                            <div class="stat-value">End-to-end</div>
+                            <div class="stat-label">Merch & events</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="section">
+            <div class="container split">
+                <div>
+                    <p class="eyebrow">Contact</p>
+                    <h2>Ready to collaborate?</h2>
+                    <p class="muted">Tell us about your ICT, security, software, or creative needs. We’ll propose a tailored package and delivery roadmap.</p>
+                    <div class="contact-grid">
+                        <div>
+                            <div class="label">Email</div>
+                            <div class="value">{{ contact_email }}</div>
+                        </div>
+                        <div>
+                            <div class="label">Phone</div>
+                            <div class="value">{{ contact_phone }}</div>
+                        </div>
+                        <div>
+                            <div class="label">Location</div>
+                            <div class="value">{{ contact_location }}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-card">
+                    <h4>Share your focus</h4>
+                    <form class="contact-form">
+                        <label>
+                            Name
+                            <input type="text" placeholder="Your name">
+                        </label>
+                        <label>
+                            Email
+                            <input type="email" placeholder="you@example.com">
+                        </label>
+                        <label>
+                            Department interest
+                            <select>
+                                {% for department in departments %}
+                                    <option>{{ department.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </label>
+                        <label>
+                            Notes
+                            <textarea rows="3" placeholder="What can we help you achieve?"></textarea>
+                        </label>
+                        <button type="button" class="btn primary full">Send request</button>
+                    </form>
+                    <p class="form-note">Form is illustrative — integrate with your preferred CRM or email service.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-content">
+            <div>
+                <div class="brand-name">{{ company_name }}</div>
+                <p class="muted">Technology, security, creativity, and commerce under one roof.</p>
+            </div>
+            <div class="footer-links">
+                <a href="#departments">Departments</a>
+                <a href="#solutions">Solutions</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
+
